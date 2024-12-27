@@ -6,6 +6,7 @@ const router = Router()
 router.post('/auth/register', async (req, res) => {
     const user = new User(req.body)
     await user.save()
+    res.send('Registro creado correctamente :)')
 }) 
 
 router.get('/bromita', (req, res) => {
