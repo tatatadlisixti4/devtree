@@ -3,9 +3,8 @@ import {Router} from 'express'
 const router = Router()
 
 // Routing
-router.get('/auth/register', (req, res) => {
-    console.log('Desde Register')
-    
+router.post('/auth/register', (req, res) => {
+    console.log(req.body)
 })
 
 router.get('/bromita', (req, res) => {
