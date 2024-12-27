@@ -5,9 +5,18 @@ const router = Router()
 
 // Routing
 router.post('/auth/register',
-    body("handle")
+    body('handle')
         .notEmpty()
-        .withMessage('Campo vacío'),
+        .withMessage('Campo handle vacío'),
+    body('name')
+        .notEmpty()
+        .withMessage('Campo nombre vacío'),
+    body('email')
+        .isEmail()
+        .withMessage('Campo email no válido'),
+    body('password')
+        .isLength({min: 6})
+        .withMessage('Campo password requiere mín. 6 carácteres'),
     createAccount
 )
 
