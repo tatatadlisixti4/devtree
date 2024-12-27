@@ -1,14 +1,11 @@
 import express from 'express'
-
-
-// Crear app y habilitar lectura del formulario  con qs en vez de querystring
+import router from './router'
+// Crear app
 const app = express()
 app.use(express.urlencoded({extended: true}))
 
-// Routing
-app.get('/', (req, res) => {
-    res.send('Hola Mundo en Express | TypeScript')
-    
-})
+app.use('/', router)
+
+
 
 export default app
