@@ -13,7 +13,9 @@ export const createAccount = async (req: Request, res: Response) => {
         res.status(400).json({errors: errors.array()})
     }
     
+    // Extracción datos
     const {email, password} = req.body
+
     // Comprobación email
     const userExists = await User.findOne({email})
     if(userExists) {
@@ -30,9 +32,38 @@ export const createAccount = async (req: Request, res: Response) => {
         return
     }
 
+    // Creación usuario
     const user = new User(req.body)
     user.handle = handle
     user.password = await hashPassword(password)
     await user.save()
+
+    // Respuesta
     res.status(201).send('Registro creado correctamente :)')
+}
+
+export const login = async (req: Request, res: Response) => {
+    // Manejo errores
+    const errors =  validationResult(req)
+    if(!errors.isEmpty()) {       
+        res.status(400).json({errors: errors.array()})
+        return
+    } 
+
+    // Extracción datos
+    const {email, password} = req.body
+
+    // Comprobación existencia usuario
+    const user = await User.findOne({email}) 
+    if(!user) {
+        const error =  new Error('El correo no está registrado')
+        res.status(404).json({error: error.message})
+        return
+    } 
+    
+    // Comprobar password
+
+
+
+    res.status(200).send('Comprobación exitosa')
 }

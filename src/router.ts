@@ -1,9 +1,9 @@
 import {Router} from 'express'
 import {body} from 'express-validator'
-import {createAccount} from './handlers'
+import {createAccount, login} from './handlers'
 const router = Router()
 
-// Routing
+/** Autenticación y Registro */
 router.post('/auth/register',
     body('handle')
         .notEmpty()
@@ -18,6 +18,16 @@ router.post('/auth/register',
         .isLength({min: 6})
         .withMessage('Campo password requiere mín. 6 carácteres'),
     createAccount
+)
+
+router.post('/auth/login', 
+    body('email')
+        .isEmail()
+        .withMessage('Campo email no válido'),
+    body('password')
+        .notEmpty()
+        .withMessage('Campo Password vacío'),
+    login
 )
 
 export default router
