@@ -3,7 +3,7 @@ import {validationResult} from 'express-validator'
 import slug from 'slug'
 
 import User from "../models/User"
-import {hashPassword} from '../utils/auth'
+import {hashPassword, checkPassword} from '../utils/auth'
 
 
 export const createAccount = async (req: Request, res: Response) => {
@@ -39,7 +39,7 @@ export const createAccount = async (req: Request, res: Response) => {
     await user.save()
 
     // Respuesta
-    res.status(201).send('Registro creado correctamente :)')
+    res.status(201).json({response: 'Registro creado correctamente :)'})
 }
 
 export const login = async (req: Request, res: Response) => {
@@ -56,14 +56,16 @@ export const login = async (req: Request, res: Response) => {
     // Comprobación existencia usuario
     const user = await User.findOne({email}) 
     if(!user) {
-        const error =  new Error('El correo no está registrado')
+        const error = new Error('El correo no está registrado')
         res.status(404).json({error: error.message})
         return
     } 
-    
+
     // Comprobar password
-
-
-
-    res.status(200).send('Comprobación exitosa')
+    const isPasswordCorrect = await checkPassword(password, user.password)
+    if(!isPasswordCorrect) {
+        const error = new Error('Password incorrecto')
+        res.status(401).json({error: error.message})
+    }
+    res.status(200).json({response: 'Comprobación exitosa'})
 }
