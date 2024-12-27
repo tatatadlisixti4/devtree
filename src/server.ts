@@ -1,8 +1,12 @@
 import express from 'express'
 import router from './router'
+import {connectDB} from './config/db'
 
-// Crear app y leer datos de formularios
+// Crear app y conexión a MongoDB Atlas
 const app = express()
+connectDB()
+
+// Leer datos de formularios
 app.use(express.json())
 
 // Router
