@@ -12,6 +12,7 @@ type RegisterFormType = {
 
 export default function RegisterView() {
     const {register, watch, handleSubmit, formState: {errors}} = useForm<RegisterFormType>()
+    const password = watch('password')
 
     const handleRegister = () => {
         console.log('Holiguis')
@@ -23,6 +24,7 @@ export default function RegisterView() {
             <form 
                 className="bg-white px-5 py-20 rounded-lg space-y-10 mt-10"
                 onSubmit={handleSubmit(handleRegister)}
+                noValidate
             >
                 <div className="grid grid-cols-1 space-y-3">
                     <label htmlFor="name" className="text-2xl text-slate-500">Nombre</label>
@@ -32,7 +34,12 @@ export default function RegisterView() {
                         placeholder="Tu Nombre"
                         className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
                         {...register('name', {
-                            required: "El nombre es obligatorio"
+                            required: "El nombre es obligatorio",
+                            maxLength: {
+                                value: 8,
+                                message: "Máximo 8 carácteres"
+                            }
+                            
                         })}
                     />
                     {errors.name && <ErrorMessage>{errors.name.message}</ErrorMessage>}
@@ -45,7 +52,11 @@ export default function RegisterView() {
                         placeholder="Email de Registro"
                         className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
                         {...register('email', {
-                            required: "El email es obligatorio"
+                            required: "El e-mail es obligatorio",
+                            pattern: {
+                                value: /\S+@\S+\.\S+/,
+                                message: "E-mail no válido",
+                            },
                         })}
                     />
                     {errors.email && <ErrorMessage>{errors.email.message}</ErrorMessage>}
@@ -71,7 +82,11 @@ export default function RegisterView() {
                         placeholder="Password de Registro"
                         className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
                         {...register('password', {
-                            required: "El password es obligatorio"
+                            required: "El password es obligatorio",
+                            minLength: {
+                                value: 6,
+                                message: "El password debe incluir mínimo 6 caracteres"
+                            }
                         })}
                     />
                     {errors.password && <ErrorMessage>{errors.password.message}</ErrorMessage>}
@@ -84,7 +99,8 @@ export default function RegisterView() {
                         placeholder="Repetir Password"
                         className="bg-slate-100 border-none p-3 rounded-lg placeholder-slate-400"
                         {...register('password_confirmation', {
-                            required: "No repetiste tu password"
+                            required: "No repetiste tu password",
+                            validate: value => value === password || "Los passwords no coinciden"
                         })}
                     />
                     {errors.password_confirmation && <ErrorMessage>{errors.password_confirmation.message}</ErrorMessage>}
