@@ -1,18 +1,11 @@
-import {Request, Response} from 'express'
+import type {Request, Response} from 'express'
 import {validationResult} from 'express-validator'
 import slug from 'slug'
 
 import User from "../models/User"
 import {hashPassword, checkPassword} from '../utils/auth'
 
-
 export const createAccount = async (req: Request, res: Response) => {
-    // Manejar errores
-    const errors = validationResult(req)
-    if(!errors.isEmpty()) {
-        res.status(400).json({errors: errors.array()})
-    }
-    
     // Extracción datos
     const {email, password} = req.body
 
@@ -23,6 +16,7 @@ export const createAccount = async (req: Request, res: Response) => {
         res.status(409).json({error: error.message})
         return
     }
+
     // Comprobación handle
     const handle = slug(req.body.handle, '')
     const handleExists = await User.findOne({handle})
@@ -67,5 +61,6 @@ export const login = async (req: Request, res: Response) => {
         const error = new Error('Password incorrecto')
         res.status(401).json({error: error.message})
     }
+
     res.status(200).json({response: 'Comprobación exitosa'})
 }
