@@ -2,9 +2,16 @@ import {Link} from "react-router-dom"
 import {useForm} from "react-hook-form"
 import ErrorMessage from "../components/ErrorMessage"
 
+type RegisterFormType = {
+    name: string
+    email: string
+    handle: string
+    password: string
+    password_confirmation: string
+}
 
 export default function RegisterView() {
-    const {register, watch, handleSubmit, formState: {errors}} = useForm()
+    const {register, watch, handleSubmit, formState: {errors}} = useForm<RegisterFormType>()
 
     const handleRegister = () => {
         console.log('Holiguis')
