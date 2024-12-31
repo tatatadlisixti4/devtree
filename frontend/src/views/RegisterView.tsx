@@ -25,10 +25,9 @@ export default function RegisterView() {
             reset()
         } catch (error) {
             if(isAxiosError(error) && error.response){
-                console.log(error.response.data.error)
+                console.log(error.response.data.error) 
             }
         }
-        
     }
     
     return (
