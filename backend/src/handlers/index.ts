@@ -62,6 +62,8 @@ export const login = async (req: Request, res: Response) => {
         const error = new Error('Password incorrecto')
         res.status(401).json({error: error.message})
     }
-    generateJWT(user)
-    res.status(200).json({response: 'Comprobación exitosa'})
+    const token = generateJWT({id: user._id})
+    res.send(token)
+
+    // res.status(200).json({response: 'Comprobación exitosa'})
 }
