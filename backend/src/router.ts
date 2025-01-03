@@ -1,7 +1,7 @@
 import {Router} from 'express'
 import {body} from 'express-validator'
 import {handleInputErrors} from './middleware/validation'
-import {createAccount, login} from './handlers'
+import {createAccount, getUser, login} from './handlers'
 const router = Router()
 
 /** Autenticación y Registro */
@@ -31,5 +31,7 @@ router.post('/auth/login',
         .withMessage('Campo Password vacío'),
     login
 )
+
+router.get('/user', getUser)
 
 export default router
