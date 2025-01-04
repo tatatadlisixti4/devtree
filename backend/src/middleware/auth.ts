@@ -1,7 +1,14 @@
 import type {Request, Response, NextFunction} from "express"
 import jwt from 'jsonwebtoken'
+import User, {userInterface} from "../models/User"
 
-import User from "../models/User"
+declare global {
+    namespace Express {
+        interface Request {
+            user?: userInterface
+        }
+    }
+}
 
 export const authenticate = async (req: Request, res: Response, next: NextFunction) => {
     const bearer = req.headers.authorization
@@ -27,6 +34,7 @@ export const authenticate = async (req: Request, res: Response, next: NextFuncti
                 res.status(404).json({error: error.message})
                 return
             }
+            req.user = user
             next()
         }
     } catch (error) {
