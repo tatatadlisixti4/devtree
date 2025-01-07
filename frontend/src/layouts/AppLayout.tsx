@@ -6,10 +6,18 @@ import NavigationTabs from "../components/NavigationTabs"
 import {getUser} from "../api/DevTreeAPI"
 
 export default function AppLayout() {
-    const {} = useQuery({
+    const {data, isLoading, error, isError} = useQuery({
         queryFn: getUser,
-        queryKey: ['user']
+        queryKey: ['user'],
+        retry: 1, // Si no se especifíca es igual a 3
+        refetchOnWindowFocus: false
     })
+    console.log(data) // Undefined cuando isLoading es true, su resultado posterior depende de que isError en sea true o false cuando isLoading sea false
+    console.log(isLoading) // True cuando carga el fetch de la función getUser y false cuando ya tiene un resultado alojado en data
+    console.log(isError) // False cuando isLoading es true ya que aun no hay resolución del fetch. True si la resolución no es exitosa
+    console.log(error) // Undefined cuando isLoading es true, su resultado posterior depende de que isError en sea true o false cuando isLoading sea false
+    console.log(error?.message) // Para que renderize solo el mensaje del error
+    
     return (
         <>
             <header className="bg-slate-800 py-5">
