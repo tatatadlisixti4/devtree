@@ -3,8 +3,14 @@ import api from "../config/axios"
 
 export async function getUser() {
     try {
-        const {data} = await api('user')
-        console.log(data)
+        // Envio del token en la cabecera authorization del request con axios
+        const token = localStorage.getItem('AUTH_TOKEN')
+        const {data} = await api('user', {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        })
+        return data
     } catch (error) {
         if(isAxiosError(error) && error.response){
             // console.log(error.response.data.error) Mensaje de error del middleware del backend
