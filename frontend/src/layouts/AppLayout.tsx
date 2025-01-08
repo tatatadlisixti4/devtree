@@ -1,18 +1,22 @@
 import {Link, Outlet} from "react-router-dom"
 import {Toaster} from "sonner"
 import {useQuery} from '@tanstack/react-query'
+import {Navigate} from "react-router-dom"
 
 import NavigationTabs from "../components/NavigationTabs"
 import {getUser} from "../api/DevTreeAPI"
 
 export default function AppLayout() {
-    const {data} = useQuery({
+    const {data, isLoading, isError} = useQuery({
         queryFn: getUser,
         queryKey: ['user'],
         retry: 1, // Si no se especifíca es igual a 3
         refetchOnWindowFocus: false
     })
-    console.log(data)
+    if(isLoading) return 'Cargando...'
+    if(isError) {
+        return <Navigate to={'/auth/login'} /> 
+    }
     /*
     console.log(data) // Undefined cuando isLoading es true, su resultado posterior depende de que isError en sea true o false cuando isLoading sea false
     console.log(isLoading) // True cuando carga el fetch de la función getUser y false cuando ya tiene un resultado alojado en data
