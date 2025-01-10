@@ -90,7 +90,7 @@ export const updateProfile = async(req: Request, res: Response) => {
         await req.user.save()
 
         // Respuesta
-        res.status(201).json({response: 'Registro actualizado correctamente :)'})
+        res.status(201).send('Registro actualizado correctamente :)')
     } catch(e) {
         const error = new Error('Hubo un error')
         res.status(500).json({error: error.message})

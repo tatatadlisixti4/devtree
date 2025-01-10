@@ -1,5 +1,6 @@
 import {useForm} from 'react-hook-form'
 import {useQueryClient, useMutation} from '@tanstack/react-query'
+import {toast} from 'sonner'
 import ErrorMessage from '../components/ErrorMessage'
 import {ProfileForm, User} from '../types'
 import {updateProfile} from '../api/DevTreeAPI'
@@ -10,11 +11,11 @@ export default function ProfileView() {
 
     const updateProfileMutation = useMutation({
         mutationFn: updateProfile,
-        onError: () => {
-            console.log('Error')
+        onError: (error) => {
+            toast.error(error.message)
         },
-        onSuccess: () => {
-            console.log('Éxito')
+        onSuccess: (data) => { // Se pasa data en auto desde la mutationFn
+            toast.success(data)
         }
     })    
 
