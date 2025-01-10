@@ -73,7 +73,24 @@ export const getUser = async(req: Request, res: Response) => {
 
 export const updateProfile = async(req: Request, res: Response) => {
     try {
-        console.log(req.body)
+        const {description} = req.body
+
+        // Comprobación handle
+        const handle = slug(req.body.handle, '')
+        const handleExists = await User.findOne({handle})
+        if(handleExists && handleExists.email !== req.user.email) {
+            const handleError = new Error('Nombre de usuario no disponible')
+            res.status(409).json({error: handleError.message})
+            return
+        }
+
+        // Actualizar el usuario
+        req.user.description = description 
+        req.user.handle = handle
+        await req.user.save()
+
+        // Respuesta
+        res.status(201).json({response: 'Registro actualizado correctamente :)'})
     } catch(e) {
         const error = new Error('Hubo un error')
         res.status(500).json({error: error.message})
