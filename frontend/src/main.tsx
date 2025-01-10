@@ -4,11 +4,11 @@ import {QueryClient, QueryClientProvider} from '@tanstack/react-query'
 import {ReactQueryDevtools} from '@tanstack/react-query-devtools'
 import Router from './router'
 import './index.css'
-const queryCLient = new QueryClient()
+const queryClient = new QueryClient()
 createRoot(document.getElementById('root')!).render(
     <StrictMode>
         <QueryClientProvider
-            client={queryCLient}
+            client={queryClient}
         >
             <Router />
             <ReactQueryDevtools />
