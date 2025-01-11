@@ -3,7 +3,7 @@ import {useQueryClient, useMutation} from '@tanstack/react-query'
 import {toast} from 'sonner'
 import ErrorMessage from '../components/ErrorMessage'
 import {ProfileForm, User} from '../types'
-import {updateProfile} from '../api/DevTreeAPI'
+import {updateProfile, uploadImage} from '../api/DevTreeAPI'
 
 export default function ProfileView() {
     const queryClient = useQueryClient()
@@ -20,6 +20,16 @@ export default function ProfileView() {
         }
     })    
 
+    const uploadImageMutation = useMutation({
+        mutationFn: uploadImage,
+        onError: (error) => { 
+            console.log(error)
+        },
+        onSuccess: (data) => { 
+            console.log(data)
+        }
+    })    
+
     const {register, handleSubmit, formState: {errors}} = useForm<ProfileForm>({defaultValues: {
         handle: data.handle,
         description: data.description
@@ -27,7 +37,10 @@ export default function ProfileView() {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if(e.target.files) {
-            console.log(e.target.files[0])
+            uploadImageMutation.mutate(e.target.files[0])
+        } else {
+            console.log('Sin imagen')
+            
         }
     }
 
@@ -35,6 +48,7 @@ export default function ProfileView() {
         console.log("Desde handleUserProfileForm")
         updateProfileMutation.mutate(formData)
     }
+
     return (
         <form 
             className="bg-white p-10 rounded-lg space-y-5"

@@ -20,8 +20,20 @@ export async function updateProfile(formData: ProfileForm) {
         return data
     } catch (error) {
         if(isAxiosError(error) && error.response){
-            // console.log(error.response.data.error) Mensaje de error del middleware del backend
-            throw new Error(error.response.data.error) // Se usa esto y no el de arriba para poder usar el error de ReactQuery que interacciona con este error.
+            throw new Error(error.response.data.error) 
+        }
+    }
+}
+
+export async function uploadImage(file: File) {
+    const formData = new FormData()
+    formData.append('file', file)
+    try {
+        const {data} = await api.post('/user/image', formData)
+        return data
+    } catch (error) {
+        if(isAxiosError(error) && error.response){
+            throw new Error(error.response.data.error) 
         }
     }
 }
