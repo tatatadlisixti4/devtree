@@ -25,6 +25,12 @@ export default function ProfileView() {
         description: data.description
     }})
 
+    const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        if(e.target.files) {
+            console.log(e.target.files[0])
+        }
+    }
+
     const handleUserProfileForm = (formData: ProfileForm) => {
         console.log("Desde handleUserProfileForm")
         updateProfileMutation.mutate(formData)
@@ -71,7 +77,7 @@ export default function ProfileView() {
                     name="handle"
                     className="border-none bg-slate-100 rounded-lg p-2"
                     accept="image/*"
-                    onChange={ () => {} }
+                    onChange={handleChange}
                 />
             </div>
 
