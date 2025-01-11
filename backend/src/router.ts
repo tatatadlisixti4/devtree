@@ -1,11 +1,10 @@
 import {Router} from 'express'
 import {body} from 'express-validator'
 import {handleInputErrors} from './middleware/validation'
-import {createAccount, getUser, login, updateProfile} from './handlers'
+import {createAccount, getUser, login, updateProfile, uploadImage} from './handlers'
 import {authenticate} from './middleware/auth'
 const router = Router()
 
-/** Autenticación y Registro */
 router.post('/auth/register',
     body('handle')
         .notEmpty()
@@ -34,6 +33,7 @@ router.post('/auth/login',
 )
 
 router.get('/user', authenticate, getUser)
+
 router.patch('/user',
     body('handle')
         .notEmpty()
@@ -46,4 +46,5 @@ router.patch('/user',
     updateProfile
 ) 
 
+router.post('/user/image', authenticate, uploadImage)
 export default router
