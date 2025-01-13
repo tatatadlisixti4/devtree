@@ -16,18 +16,23 @@ export default function ProfileView() {
         },
         onSuccess: (data) => { // Se pasa data en auto desde la mutationFn
             toast.success(data)
-            queryClient.invalidateQueries({queryKey: ['user']})
+            queryClient.invalidateQueries({queryKey: ['user']}) 
         }
     })    
 
     const uploadImageMutation = useMutation({
         mutationFn: uploadImage,
         onError: (error) => { 
-            console.log(error)
+            toast.error(error.message)
         },
         onSuccess: (data) => { 
-            queryClient.invalidateQueries({queryKey: ['user']})
-            console.log(data)
+            queryClient.setQueryData(['user'], (prevData: User) => {
+                return {
+                    ...prevData,
+                    image: data
+                }
+            })
+            // queryClient.invalidateQueries({queryKey: ['user']}) // Opción que no usa la lógica Optimistic Updates
         }
     })    
 
