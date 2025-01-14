@@ -7,8 +7,10 @@ export default function LinkTreeView() {
     const [devTreeLinks, setDevTreeLinks] = useState(social)
 
     const handleUrlChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log(e.target.name)
-        console.log(e.target.value)
+        const updatedLinks = devTreeLinks.map( link =>  link.name === e.target.name ? 
+            {...link, url: e.target.value} : link
+        )
+        setDevTreeLinks(updatedLinks)
     }
     return (
         <div className='space-y-5'>
