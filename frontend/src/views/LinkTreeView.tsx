@@ -6,7 +6,7 @@ import {social} from '../data/social'
 import DevTreeInput from '../components/DevTreeInput'
 import {isValidUrl} from '../utils'
 import {updateProfile} from '../api/DevTreeAPI'
-import {User} from '../types'
+import {SocialNetwork, User} from '../types'
 
 export default function LinkTreeView() {
     const [devTreeLinks, setDevTreeLinks] = useState(social)
@@ -25,7 +25,7 @@ export default function LinkTreeView() {
 
     useEffect(() => {
         const updatedData = devTreeLinks.map(item => {
-            const userlink = JSON.parse(user.links).find((link : User) => link.name === item.name)
+            const userlink = JSON.parse(user.links).find((link: SocialNetwork) => link.name === item.name)
             if(userlink) {
                 return {...item, url: userlink.url, enabled: userlink.enabled}
             }
