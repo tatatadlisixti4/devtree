@@ -41,6 +41,8 @@ export default function LinkTreeView() {
         setDevTreeLinks(updatedLinks)
     }
 
+    const links : SocialNetwork[] = JSON.parse(user.links)    
+
     const handleEnableLink = (socialNetwork : string) => {
         const updatedLinks = devTreeLinks.map(link => {
             if(link.name === socialNetwork) {
@@ -53,19 +55,26 @@ export default function LinkTreeView() {
             return link
         })
         setDevTreeLinks(updatedLinks)
+        let updatedItems: SocialNetwork[] = []
 
         const selectedSocialNetwork = updatedLinks.find(link => link.name === socialNetwork)
         if(selectedSocialNetwork?.enabled) {
-            console.log('Habilitando', selectedSocialNetwork)
+            const newItem = {
+                ...selectedSocialNetwork,
+                id: links.length + 1
+            }
+            updatedItems = [...links, newItem ]
         } else {
             console.log('Deshabilitando...')
             
         }
 
+        console.log(updatedItems)
+
         queryClient.setQueryData(['user'], (prevData: User) => {
             return {
                 ...prevData,
-                links: JSON.stringify(updatedLinks)
+                links: JSON.stringify(updatedItems)
             }
         })
     }
