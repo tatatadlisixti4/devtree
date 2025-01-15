@@ -44,17 +44,14 @@ export default function ProfileView() {
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         if(e.target.files) {
             uploadImageMutation.mutate(e.target.files[0])
-        } else {
-            console.log('Sin imagen')
-            
         }
     }
 
     const handleUserProfileForm = (formData: ProfileForm) => {
-        console.log(formData)
-
-        return
-        updateProfileMutation.mutate(formData)
+        const user : User = queryClient.getQueryData(['user'])!
+        user.description = formData.description
+        user.handle = formData.handle
+        updateProfileMutation.mutate(user)
     }
 
     return (
