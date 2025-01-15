@@ -8,7 +8,6 @@ type DevTreeItemProps = {
     handleEnableLink: (socialNetwork: string) => void
 }
 export default function DevTreeInput({item, handleUrlChange, handleEnableLink}: DevTreeItemProps) {
-    
     return (
         <div className="bg-white shadow-sm p-5 flex item-center gap-3">
             <div
