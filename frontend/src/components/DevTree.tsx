@@ -73,8 +73,8 @@ export default function DevTree({data}: DevTreeProps) {
                                     >
                                         {enabledLinks.map(link => (
                                             <DevTreeLink 
-                                            key={link.name}
-                                            link={link}
+                                                key={link.name}
+                                                link={link}
                                             />
                                         ))}
                                     </SortableContext>
