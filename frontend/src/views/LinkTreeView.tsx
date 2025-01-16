@@ -42,7 +42,6 @@ export default function LinkTreeView() {
     }
 
     const links : SocialNetwork[] = JSON.parse(user.links)    
-    console.log(links)
 
     const handleEnableLink = (socialNetwork : string) => {
         const updatedLinks = devTreeLinks.map(link => {
@@ -63,50 +62,24 @@ export default function LinkTreeView() {
             const id = links.filter(link => link.id).length + 1 
             console.log(id)
             if(links.some(link => link.name === socialNetwork)) {
-                console.log("añadida")
-
                 updatedItems = links.map(link => {
                     if(link.name === socialNetwork) {
                         return {
                             ...link,
-                            id,
-                            enabled: true
+                            enabled: true,
+                            id
                         }
                     } else {    
                         return link
                     }
                 })
-                
             } else {
                 const newItem = {
                     ...selectedSocialNetwork,
-                    id: links.length + 1
+                    id
                 }
                 updatedItems = [...links, newItem]
             }
-            console.log(id)
-
-            
-            // const id = links.filter(link => link.id).length + 1 
-            // if(links.some(link => link.name === socialNetwork)) {
-            //     updatedItems = links.map(link => {
-            //         if(link.name === socialNetwork) {
-            //             return {
-            //                 ...link,
-            //                 id,
-            //                 enabled: false
-            //             }
-            //         } else {    
-            //             return link
-            //         }
-            //     })
-            // } else {
-            //     const newItem = {
-            //         ...selectedSocialNetwork,
-            //         id
-            //     }
-            //     updatedItems = [...links, newItem ]
-            // }
 
         } else {
             const indexToUpdate = links.findIndex(link => link.name === socialNetwork)
