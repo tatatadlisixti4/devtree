@@ -42,6 +42,7 @@ export default function LinkTreeView() {
     }
 
     const links : SocialNetwork[] = JSON.parse(user.links)    
+    console.log(links)
 
     const handleEnableLink = (socialNetwork : string) => {
         const updatedLinks = devTreeLinks.map(link => {
@@ -60,25 +61,52 @@ export default function LinkTreeView() {
         const selectedSocialNetwork = updatedLinks.find(link => link.name === socialNetwork)
         if(selectedSocialNetwork?.enabled) {
             const id = links.filter(link => link.id).length + 1 
+            console.log(id)
             if(links.some(link => link.name === socialNetwork)) {
+                console.log("añadida")
+
                 updatedItems = links.map(link => {
                     if(link.name === socialNetwork) {
                         return {
                             ...link,
                             id,
-                            enabled: false
+                            enabled: true
                         }
                     } else {    
                         return link
                     }
                 })
+                
             } else {
                 const newItem = {
                     ...selectedSocialNetwork,
-                    id
+                    id: links.length + 1
                 }
-                updatedItems = [...links, newItem ]
+                updatedItems = [...links, newItem]
             }
+            console.log(id)
+
+            
+            // const id = links.filter(link => link.id).length + 1 
+            // if(links.some(link => link.name === socialNetwork)) {
+            //     updatedItems = links.map(link => {
+            //         if(link.name === socialNetwork) {
+            //             return {
+            //                 ...link,
+            //                 id,
+            //                 enabled: false
+            //             }
+            //         } else {    
+            //             return link
+            //         }
+            //     })
+            // } else {
+            //     const newItem = {
+            //         ...selectedSocialNetwork,
+            //         id
+            //     }
+            //     updatedItems = [...links, newItem ]
+            // }
 
         } else {
             const indexToUpdate = links.findIndex(link => link.name === socialNetwork)
@@ -99,7 +127,8 @@ export default function LinkTreeView() {
                 }
             })
         }
-
+        console.log(updatedItems);
+        
         queryClient.setQueryData(['user'], (prevData: User) => {
             return {
                 ...prevData,
