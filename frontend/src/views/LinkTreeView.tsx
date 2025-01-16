@@ -59,11 +59,27 @@ export default function LinkTreeView() {
 
         const selectedSocialNetwork = updatedLinks.find(link => link.name === socialNetwork)
         if(selectedSocialNetwork?.enabled) {
-            const newItem = {
-                ...selectedSocialNetwork,
-                id: links.length + 1
+            const id = links.filter(link => link.id).length + 1 
+            if(links.some(link => link.name === socialNetwork)) {
+                updatedItems = links.map(link => {
+                    if(link.name === socialNetwork) {
+                        return {
+                            ...link,
+                            id,
+                            enabled: false
+                        }
+                    } else {    
+                        return link
+                    }
+                })
+            } else {
+                const newItem = {
+                    ...selectedSocialNetwork,
+                    id
+                }
+                updatedItems = [...links, newItem ]
             }
-            updatedItems = [...links, newItem ]
+
         } else {
             const indexToUpdate = links.findIndex(link => link.name === socialNetwork)
             updatedItems = links.map(link => {
@@ -82,10 +98,7 @@ export default function LinkTreeView() {
                     return link
                 }
             })
-            console.log(indexToUpdate)
         }
-
-        console.log(updatedItems)
 
         queryClient.setQueryData(['user'], (prevData: User) => {
             return {
