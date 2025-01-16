@@ -65,8 +65,7 @@ export default function LinkTreeView() {
             }
             updatedItems = [...links, newItem ]
         } else {
-            console.log('Deshabilitando...')
-            
+            updatedItems = links.filter(link => link.name !== socialNetwork)
         }
 
         console.log(updatedItems)
