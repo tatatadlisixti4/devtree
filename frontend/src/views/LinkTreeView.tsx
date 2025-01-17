@@ -60,7 +60,6 @@ export default function LinkTreeView() {
         const selectedSocialNetwork = updatedLinks.find(link => link.name === socialNetwork)
         if(selectedSocialNetwork?.enabled) {
             const id = links.filter(link => link.id).length + 1 
-            console.log(id)
             if(links.some(link => link.name === socialNetwork)) {
                 updatedItems = links.map(link => {
                     if(link.name === socialNetwork) {
@@ -100,8 +99,8 @@ export default function LinkTreeView() {
                 }
             })
         }
-        console.log(updatedItems);
         
+        console.log(updatedItems)
         queryClient.setQueryData(['user'], (prevData: User) => {
             return {
                 ...prevData,
@@ -122,7 +121,7 @@ export default function LinkTreeView() {
             ))}
             <button
                 className='bg-cyan-400 p-2 text-lg w-full uppercase text-slate-600 rounded-lg font-bold'
-                onClick={() => mutate(user)}
+                onClick={() => mutate(queryClient.getQueryData(['user'])!)}
             >Guardar Cambios</button>
         </div>
     )
