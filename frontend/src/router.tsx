@@ -25,7 +25,6 @@ export default function Router() {
                     <Route element={<HandleView />} index={true} />
                 </Route>
             </Routes>
-        
         </BrowserRouter>
     )
 }
