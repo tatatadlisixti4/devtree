@@ -8,7 +8,7 @@ export default function AppLayout() {
     const {data, isLoading, isError} = useQuery({
         queryFn: getUser,
         queryKey: ['user'],
-        retry: 1, // Si no se especifíca es igual a 3
+        retry: 2, // Si no se especifíca es igual a 3
         refetchOnWindowFocus: false
     })
     if(isLoading) return 'Cargando...'
