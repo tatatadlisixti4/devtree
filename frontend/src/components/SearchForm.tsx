@@ -54,7 +54,7 @@ export default function SearchForm() {
             {mutation.error && <p className='text-center text-red-600 font-black'>{mutation.error.message}</p>}
             {mutation.data && 
                 <p className='text-center text-cyan-500 font-black'>
-                    {mutation.data} ir a <span className='text-green-600'><Link to={'/auth/register'}>Registro</Link></span>
+                    {mutation.data} ir a <span className='text-green-600'><Link to={'/auth/register'} state={{handle: slugify(handle)}}>Registro</Link></span>
                 </p>
             }
         </div>
